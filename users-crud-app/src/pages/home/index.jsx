@@ -3,7 +3,7 @@ import Cards from "components/Cards/Cards";
 import {getAllUsers} from "services/apiRequests";
 import {useQuery} from "react-query";
 import {useContext} from "react";
-import {GlobalDispatchContext, GlobalStateContext} from "context/GlobalContext";
+import {GlobalDispatchContext} from "context/GlobalContext";
 
 
 
@@ -11,7 +11,7 @@ export default function Home() {
 
 
 
-    const dispachContext = useContext(GlobalDispatchContext);
+    const dispatchContext = useContext(GlobalDispatchContext);
 
 
     const { isLoading, error, data } = useQuery('getAllUsers', () =>
@@ -23,10 +23,7 @@ export default function Home() {
     if (error) return 'An error has occurred: ' + error.message
 
     if (data){
-
-        console.log(dispachContext)
-        dispachContext(data)
-        console.log(data)
+        dispatchContext(data.data)
     }
 
 
