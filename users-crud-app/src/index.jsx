@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from 'components/App';
 import reportWebVitals from './reportWebVitals';
 import {QueryClient, QueryClientProvider} from "react-query";
+import {GlobalContextProvider} from "context/GlobalContext";
 
 const queryClient = new QueryClient();
 
 ReactDOM.render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
-            <App/>
+            <GlobalContextProvider>
+                <App />
+            </GlobalContextProvider>
         </QueryClientProvider>
     </React.StrictMode>,
     document.getElementById('root')
