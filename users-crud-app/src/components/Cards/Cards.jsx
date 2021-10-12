@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {
     Container,
-    Grid,
+    Grid, Pagination,
 } from "@mui/material";
 import UserCard from "components/Cards/UserCard";
 import {GlobalStateContext} from "context/GlobalContext";
@@ -11,13 +11,17 @@ import {GlobalStateContext} from "context/GlobalContext";
 const Cards = () => {
 
 
-    const { users } = useContext(GlobalStateContext);
+    const { users, pages } = useContext(GlobalStateContext);
 
     let list;
     if (users.length){
         list =  users.map((card) => (
           <UserCard card={card} key={card.id} />
         ))
+    }
+
+    const pageChangeHandler = (event, value) => {
+      console.log(value)
     }
 
 
@@ -29,6 +33,7 @@ const Cards = () => {
                         {list}
                     </Grid>
                 </Container>
+                <Pagination count={pages} onChange={pageChangeHandler} color="primary" />
             </main>
         </div>
     );
