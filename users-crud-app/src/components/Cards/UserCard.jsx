@@ -3,6 +3,8 @@ import {Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} fro
 import {deleteUser} from "services/apiRequests";
 import {useGlobalDispatchContext} from "context/GlobalContext";
 import {ACTION_TYPES} from "const";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const UserCard = (props) => {
 
@@ -17,9 +19,9 @@ const UserCard = (props) => {
 
 
   return (
-    <Grid item key={card.id} xs={12} sm={6} md={4}>
+    <Grid item key={card.id}>
       <Card
-        sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+        sx={{ height: '500px', width: '300px', display: 'flex', flexDirection: 'column' }}
       >
         <CardMedia
           component="img"
@@ -39,9 +41,9 @@ const UserCard = (props) => {
             Email: {card.email}
           </Typography>
         </CardContent>
-        <CardActions>
-          <Button size="small">Edit</Button>
-          <Button size="small" color={"error"} onClick={deleteHandler}>Delete</Button>
+        <CardActions sx={{display: "flex", justifyContent: "space-evenly"}}>
+          <Button size="small" endIcon={<EditIcon/>} >Edit</Button>
+          <Button size="small" color={"error"} onClick={deleteHandler} endIcon={<DeleteIcon />} > Delete </Button>
         </CardActions>
       </Card>
     </Grid>

@@ -9,6 +9,8 @@ const initialState = {
   users: [],
   currentUser: {},
   pages: 1,
+  createFormOpened: false,
+  updateFormOpened: false,
 }
 
 function reducer(state, action) {
@@ -45,6 +47,16 @@ function reducer(state, action) {
       return {
         ...state,
         users: usersWithoutDeleted,
+      };
+    case ACTION_TYPES.CREATE_FORM_OPENED:
+      return {
+        ...state,
+        createFormOpened: action.payload,
+      };
+    case ACTION_TYPES.UPDATE_FORM_OPENED:
+      return {
+        ...state,
+        updateFormOpened: action.payload,
       };
     default:
       throw new Error();

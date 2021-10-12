@@ -36,7 +36,7 @@ const Cards = () => {
   return (
       <main>
         <MainWrapper>
-          <Container sx={{py: 8}} maxWidth="md">
+          <Container sx={{py: 8}} maxWidth="lg">
             <Grid container spacing={4}>
               {list}
             </Grid>
