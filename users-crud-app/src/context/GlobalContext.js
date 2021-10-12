@@ -9,6 +9,7 @@ const initialState = {
   users: [],
   currentUser: {},
   pages: 1,
+  images: [],
   createFormOpened: false,
   updateFormOpened: false,
 }
@@ -24,6 +25,11 @@ function reducer(state, action) {
       return {
         ...state,
         pages: action.payload,
+      };
+    case ACTION_TYPES.SET_IMAGES:
+      return {
+        ...state,
+        images: action.payload,
       };
     case ACTION_TYPES.SET_CURRENT_USER:
       return {

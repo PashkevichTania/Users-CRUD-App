@@ -9,23 +9,44 @@ import {MainWrapper} from "components/StyledComponents/styled";
 import CreateForm from "components/PopupForm/CreateForm";
 import {Button} from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import {getImages} from "services/imagesAPI";
+
 
 
 export default function Home() {
 
   const dispatch = useGlobalDispatchContext();
 
-  const {isLoading, error, data} = useQuery('getUsers', () =>
-      getAllUsersPaginated(1)
-  )
+  const useQueryMultiple = () => {
+    const res1 = useQuery('getImages', () =>
+        getImages());
+    const res2 = useQuery('getUsers', () =>
+        getAllUsersPaginated(1));
+    console.log('sssssssss0',res1,res2)
+    return [res1, res2];
+  }
 
-  if (isLoading) return 'Loading...'
 
-  if (error) return 'An error has occurred: ' + error.message
+  const [
+    { isLoading: isLoadingImages, error: errorImages, data: dataImages},
+    { isLoading: isLoadingUsers, error: errorUsers, data: dataUsers}
+  ] = useQueryMultiple()
 
-  if (data) {
-    dispatch({type: ACTION_TYPES.SET_PAGES, payload: data.data.totalPages})
-    dispatch({type: ACTION_TYPES.SET_USERS, payload: data.data.docs})
+
+  if (isLoadingUsers) return 'Loading...'
+
+  if (errorUsers) return 'An error has occurred: ' + errorUsers.message
+
+  if (dataUsers) {
+    dispatch({type: ACTION_TYPES.SET_PAGES, payload: dataUsers.data.totalPages})
+    dispatch({type: ACTION_TYPES.SET_USERS, payload: dataUsers.data.docs})
+  }
+
+  if (errorImages){
+    console.log(errorImages)
+  }
+  if (dataImages) {
+    dispatch({type: ACTION_TYPES.SET_IMAGES, payload: dataImages.results})
   }
 
   const handleOpenCreateForm = ()=>{
