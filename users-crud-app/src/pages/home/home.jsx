@@ -15,7 +15,7 @@ export default function Home() {
 
 
     const { isLoading, error, data } = useQuery('getUsers', () =>
-        getAllUsersPaginated(1,6)
+        getAllUsersPaginated(1)
     )
 
     if (isLoading) return 'Loading...'
