@@ -3,18 +3,19 @@ import {
     Container,
     Grid,
 } from "@mui/material";
-import {GlobalStateContext} from "context/GlobalContext";
 import UserCard from "components/Cards/UserCard";
+import {GlobalStateContext} from "context/GlobalContext";
 
 
 
 const Cards = () => {
 
 
-    const stateContext = useContext(GlobalStateContext);
+    const { users } = useContext(GlobalStateContext);
+
     let list;
-    if (stateContext.length){
-        list =  stateContext.map((card) => (
+    if (users.length){
+        list =  users.map((card) => (
           <UserCard card={card} key={card.id} />
         ))
     }

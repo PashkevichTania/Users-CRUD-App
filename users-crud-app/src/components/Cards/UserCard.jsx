@@ -1,9 +1,21 @@
 import React from 'react';
 import {Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@mui/material";
+import {deleteUser} from "services/apiRequests";
+import {useGlobalDispatchContext} from "context/GlobalContext";
+import {ACTION_TYPES} from "const";
 
 const UserCard = (props) => {
 
-  const {card} = props
+  const dispatch = useGlobalDispatchContext();
+  const {card} = props;
+
+
+  const deleteHandler = ()=> {
+    deleteUser(card.id)
+    dispatch({type: ACTION_TYPES.DELETE_USER, payload: card.id})
+  }
+
+
   return (
     <Grid item key={card.id} xs={12} sm={6} md={4}>
       <Card
@@ -13,7 +25,7 @@ const UserCard = (props) => {
           component="img"
           sx={{
             // 16:9
-            pt: '56.25%',
+            //pt: '56.25%',
             height: '300px'
           }}
           image={card.avatar}
@@ -29,7 +41,7 @@ const UserCard = (props) => {
         </CardContent>
         <CardActions>
           <Button size="small">Edit</Button>
-          <Button size="small">Delete</Button>
+          <Button size="small" color={"error"} onClick={deleteHandler}>Delete</Button>
         </CardActions>
       </Card>
     </Grid>

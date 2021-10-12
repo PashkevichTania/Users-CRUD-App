@@ -1,21 +1,21 @@
 import Header from "components/Header/Header";
 import Cards from "components/Cards/Cards";
-import {getAllUsers} from "services/apiRequests";
+import {getAllUsersPaginated} from "services/apiRequests";
 import {useQuery} from "react-query";
-import {useContext} from "react";
-import {GlobalDispatchContext} from "context/GlobalContext";
+import {useGlobalDispatchContext} from "context/GlobalContext";
+import {ACTION_TYPES} from "const";
+
 
 
 
 export default function Home() {
 
+    const dispatch = useGlobalDispatchContext();
 
 
-    const dispatchContext = useContext(GlobalDispatchContext);
 
-
-    const { isLoading, error, data } = useQuery('getAllUsers', () =>
-        getAllUsers()
+    const { isLoading, error, data } = useQuery('getUsers', () =>
+        getAllUsersPaginated(1,6)
     )
 
     if (isLoading) return 'Loading...'
@@ -23,7 +23,8 @@ export default function Home() {
     if (error) return 'An error has occurred: ' + error.message
 
     if (data){
-        dispatchContext(data.data)
+        dispatch({type: ACTION_TYPES.SET_PAGES, payload: data.data.totalPages})
+        dispatch({type: ACTION_TYPES.SET_USERS, payload: data.data.docs})
     }
 
 
