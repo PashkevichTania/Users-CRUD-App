@@ -10,7 +10,7 @@ export const getAllUsers = async () => {
     }
 }
 
-export const getAllUsersPaginated= async (page = 1 ,limit = 5) => {
+export const getAllUsersPaginated= async (page = 1 ,limit = 3) => {
     try {
         const response = await fetch(`/users/paginated?limit=${limit}&page=${page}`, {})
         const users = await response.json();

@@ -9,7 +9,6 @@ const initialState = {
   users: [],
   currentUser: {},
   pages: 1,
-  currentPage: 1,
 }
 
 function reducer(state, action) {
@@ -29,17 +28,23 @@ function reducer(state, action) {
         ...state,
         currentUser: action.payload,
       };
-    case ACTION_TYPES.SET_CURRENT_PAGE:
+    case ACTION_TYPES.ADD_USER:
+      const usersWithNew = state.users.concat(action.payload)
       return {
         ...state,
-        currentPage: action.payload,
+        users: usersWithNew,
+      };
+    case ACTION_TYPES.UPDATE_USER:
+      return {
+        ...state,
+        users: action.payload,
       };
     case ACTION_TYPES.DELETE_USER:
       const id = action.payload;
-      const updatedUsers = state.users.filter((user) => user.id !== id )
+      const usersWithoutDeleted = state.users.filter((user) => user.id !== id )
       return {
         ...state,
-        users: updatedUsers,
+        users: usersWithoutDeleted,
       };
     default:
       throw new Error();
