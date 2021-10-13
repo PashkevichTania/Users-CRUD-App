@@ -18,7 +18,7 @@ import {getAllUsersPaginated, updateUser} from "services/apiRequests";
 
 const UpdateForm = () => {
 
-  const {updateFormOpened, images, currentUser} = useGlobalStateContext()
+  const {updateFormOpened, images, currentUser, currentPage} = useGlobalStateContext()
   const dispatch = useGlobalDispatchContext();
 
 
@@ -40,8 +40,8 @@ const UpdateForm = () => {
     }),
     onSubmit: async (values) => {
       const response1 = await updateUser(currentUser.id, values);
-      if (response1.responseStatus === 200){
-        const response2 = await getAllUsersPaginated(1);
+      if (response1.responseStatus.status === 200){
+        const response2 = await getAllUsersPaginated(currentPage);
         dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
         dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
       }
@@ -53,6 +53,7 @@ const UpdateForm = () => {
     dispatch({type: ACTION_TYPES.UPDATE_FORM_OPENED, payload: false})
   }
 
+  console.log(formik.values.firstName)
   return (
       <Dialog open={updateFormOpened} onClose={handleCloseCreateForm}>
         <form onSubmit={formik.handleSubmit}>
@@ -69,7 +70,6 @@ const UpdateForm = () => {
                 defaultValue={currentUser.firstName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.firstName}
             />
             {formik.touched.firstName && formik.errors.firstName ? (
                 <div>{formik.errors.firstName}</div>
@@ -85,7 +85,6 @@ const UpdateForm = () => {
                 defaultValue={currentUser.lastName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.lastName}
             />
             {formik.touched.lastName && formik.errors.lastName ? (
                 <div>{formik.errors.lastName}</div>
@@ -101,7 +100,6 @@ const UpdateForm = () => {
                 defaultValue={currentUser.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.email}
             />
             {formik.touched.email && formik.errors.email ? (
                 <div>{formik.errors.email}</div>
@@ -118,7 +116,6 @@ const UpdateForm = () => {
                       defaultValue={currentUser.avatar}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
-                      value={formik.values.avatar}
                   >
                     <MenuItem value={currentUser.avatar}>
                       <AvatarThumb src={currentUser.avatar} alt="avatar"/>

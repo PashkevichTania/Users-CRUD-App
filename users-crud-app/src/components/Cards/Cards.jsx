@@ -27,6 +27,7 @@ const Cards = () => {
     const response = await getAllUsersPaginated(value)
     if (response.responseStatus.status === 200){
       dispatch({type:ACTION_TYPES.SET_USERS, payload: response.data.docs })
+      dispatch({type: ACTION_TYPES.SET_CURRENT_PAGE, payload: value})
     }
   }
 

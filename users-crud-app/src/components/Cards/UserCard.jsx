@@ -1,21 +1,23 @@
 import React from 'react';
 import {Button, Card, CardActions, CardContent, CardMedia, Grid, Typography} from "@mui/material";
-import {createUser, deleteUser, getAllUsersPaginated} from "services/apiRequests";
-import {useGlobalDispatchContext} from "context/GlobalContext";
+import {deleteUser, getAllUsersPaginated} from "services/apiRequests";
+import {useGlobalDispatchContext, useGlobalStateContext} from "context/GlobalContext";
 import {ACTION_TYPES} from "const";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 const UserCard = (props) => {
 
+  const {currentPage} = useGlobalStateContext();
   const dispatch = useGlobalDispatchContext();
   const {card} = props;
 
 
   const deleteHandler = async () => {
     const response1 = await deleteUser(card.id);
-    if (response1.responseStatus === 200){
-      const response2 = await getAllUsersPaginated(1);
+    console.log(response1.responseStatus)
+    if (response1.responseStatus.status === 200){
+      const response2 = await getAllUsersPaginated(currentPage);
       dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
       dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
     }

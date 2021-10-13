@@ -18,7 +18,7 @@ import {createUser, getAllUsersPaginated} from "services/apiRequests";
 
 const CreateForm = () => {
 
-  const {createFormOpened, images} = useGlobalStateContext()
+  const {createFormOpened, images, currentPage} = useGlobalStateContext();
   const dispatch = useGlobalDispatchContext();
 
 
@@ -40,8 +40,8 @@ const CreateForm = () => {
     }),
     onSubmit: async (values) => {
       const response1 = await createUser(values);
-      if (response1.responseStatus === 200){
-        const response2 = await getAllUsersPaginated(1);
+      if (response1.responseStatus.status === 200){
+        const response2 = await getAllUsersPaginated(currentPage);
         dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
         dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
       }

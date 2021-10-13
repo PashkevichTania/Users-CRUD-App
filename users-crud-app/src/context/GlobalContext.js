@@ -9,6 +9,7 @@ const initialState = {
   users: [],
   currentUser: {},
   pages: 1,
+  currentPage: 1,
   images: [],
   createFormOpened: false,
   updateFormOpened: false,
@@ -35,6 +36,11 @@ function reducer(state, action) {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    case ACTION_TYPES.SET_CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
       };
     case ACTION_TYPES.ADD_USER:
       const usersWithNew = state.users.concat(action.payload)
