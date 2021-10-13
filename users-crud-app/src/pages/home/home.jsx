@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import Header from "components/Header/Header";
 import Cards from "components/Cards/Cards";
 import {useGlobalDispatchContext} from "context/GlobalContext";
@@ -11,13 +11,12 @@ import UpdateForm from "components/PopupForms/UpdateForm";
 import {useQueryMultiple} from "hooks/useQueryMultiple";
 
 
-
 export default function Home() {
 
   const dispatch = useGlobalDispatchContext();
 
   const [
-    { isLoading: isLoadingImages, error: errorImages, data: dataImages},
+    { error: errorImages, data: dataImages},
     { isLoading: isLoadingUsers, error: errorUsers, data: dataUsers}
   ] = useQueryMultiple()
 
