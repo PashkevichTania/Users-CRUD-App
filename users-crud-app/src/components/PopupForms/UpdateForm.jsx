@@ -23,6 +23,7 @@ const UpdateForm = () => {
 
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
@@ -53,7 +54,6 @@ const UpdateForm = () => {
     dispatch({type: ACTION_TYPES.UPDATE_FORM_OPENED, payload: false})
   }
 
-  console.log(formik.values.firstName)
   return (
       <Dialog open={updateFormOpened} onClose={handleCloseCreateForm}>
         <form onSubmit={formik.handleSubmit}>
@@ -67,7 +67,7 @@ const UpdateForm = () => {
                 type="text"
                 fullWidth
                 variant="standard"
-                defaultValue={currentUser.firstName}
+                value={formik.values.firstName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
             />
@@ -82,7 +82,7 @@ const UpdateForm = () => {
                 type="text"
                 fullWidth
                 variant="standard"
-                defaultValue={currentUser.lastName}
+                value={formik.values.lastName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
             />
@@ -97,7 +97,7 @@ const UpdateForm = () => {
                 type="email"
                 fullWidth
                 variant="standard"
-                defaultValue={currentUser.email}
+                value={formik.values.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
             />
@@ -113,7 +113,7 @@ const UpdateForm = () => {
                       id="avatar"
                       name="avatar"
                       label="avatar"
-                      defaultValue={currentUser.avatar}
+                      value={formik.values.avatar}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                   >

@@ -8,18 +8,24 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const UserCard = (props) => {
 
-  const {currentPage} = useGlobalStateContext();
+  const {currentPage, pages, users} = useGlobalStateContext();
   const dispatch = useGlobalDispatchContext();
   const {card} = props;
 
 
   const deleteHandler = async () => {
     const response1 = await deleteUser(card.id);
-    console.log(response1.responseStatus)
     if (response1.responseStatus.status === 200){
-      const response2 = await getAllUsersPaginated(currentPage);
-      dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
-      dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
+      if (currentPage===pages && users.length === 1){
+        const response2 = await getAllUsersPaginated(currentPage-1);
+        dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
+        dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
+      }else{
+        const response2 = await getAllUsersPaginated(currentPage);
+        dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
+        dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
+      }
+
     }
   }
 
