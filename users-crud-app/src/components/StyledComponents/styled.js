@@ -7,3 +7,9 @@ export const MainWrapper = styled.div`
   align-items: center;
   justify-content: center;
 `
+
+export const AvatarThumb = styled.img`
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+`

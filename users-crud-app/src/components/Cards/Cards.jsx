@@ -25,11 +25,9 @@ const Cards = () => {
 
   const pageChangeHandler = async (event, value) => {
     const response = await getAllUsersPaginated(value)
-    console.log("response", response)
     if (response.responseStatus.status === 200){
       dispatch({type:ACTION_TYPES.SET_USERS, payload: response.data.docs })
     }
-
   }
 
 

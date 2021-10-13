@@ -1,9 +1,20 @@
 import React from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  InputLabel, MenuItem, Select,
+  TextField
+} from "@mui/material";
 import {useGlobalDispatchContext, useGlobalStateContext} from "context/GlobalContext";
 import {ACTION_TYPES} from "const";
-import { useFormik } from 'formik';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {AvatarThumb} from "components/StyledComponents/styled";
+import {createUser, getAllUsersPaginated} from "services/apiRequests";
 
 const CreateForm = () => {
 
@@ -16,6 +27,7 @@ const CreateForm = () => {
       firstName: '',
       lastName: '',
       email: '',
+      avatar: ''
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -26,8 +38,14 @@ const CreateForm = () => {
           .required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
     }),
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      const response1 = await createUser(values);
+      if (response1.responseStatus === 200){
+        const response2 = await getAllUsersPaginated(1);
+        dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
+        dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
+      }
+      handleCloseCreateForm()
     },
   });
 
@@ -37,7 +55,7 @@ const CreateForm = () => {
 
   return (
       <Dialog open={createFormOpened} onClose={handleCloseCreateForm}>
-        <form onSubmit={formik.handleSubmit} >
+        <form onSubmit={formik.handleSubmit}>
           <DialogTitle>Create new user</DialogTitle>
           <DialogContent>
             <TextField
@@ -84,6 +102,27 @@ const CreateForm = () => {
             />
             {formik.touched.email && formik.errors.email ? (
                 <div>{formik.errors.email}</div>
+            ) : null}
+            {images ? (
+                <FormControl fullWidth>
+                  <InputLabel id="select-avatar">Avatar</InputLabel>
+                  <Select
+                      autoWidth
+                      labelId="select-avatar"
+                      id="avatar"
+                      name="avatar"
+                      label="avatar"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.avatar}
+                  >
+                    {images.map( (image) =>
+                        <MenuItem value={image.urls.regular} key={image.id}>
+                          <AvatarThumb src={image.urls.thumb} alt="avatar"/>
+                        </MenuItem>
+                    )}
+                  </Select>
+                </FormControl>
             ) : null}
           </DialogContent>
           <DialogActions>

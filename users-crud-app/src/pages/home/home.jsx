@@ -22,7 +22,6 @@ export default function Home() {
         getImages());
     const res2 = useQuery('getUsers', () =>
         getAllUsersPaginated(1));
-    console.log('sssssssss0',res1,res2)
     return [res1, res2];
   }
 
