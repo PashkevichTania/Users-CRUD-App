@@ -13,7 +13,7 @@ import {useGlobalDispatchContext, useGlobalStateContext} from "context/GlobalCon
 import {ACTION_TYPES} from "const";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {AvatarThumb} from "components/StyledComponents/styled";
+import {AvatarThumb, ErrorFormMessage} from "components/StyledComponents/styled";
 import {createUser, getAllUsersPaginated} from "services/apiRequests";
 
 const CreateForm = () => {
@@ -71,7 +71,7 @@ const CreateForm = () => {
                 value={formik.values.firstName}
             />
             {formik.touched.firstName && formik.errors.firstName ? (
-                <div>{formik.errors.firstName}</div>
+                <ErrorFormMessage>{formik.errors.firstName}</ErrorFormMessage>
             ) : null}
             <TextField
                 margin="dense"
@@ -86,7 +86,7 @@ const CreateForm = () => {
                 value={formik.values.lastName}
             />
             {formik.touched.lastName && formik.errors.lastName ? (
-                <div>{formik.errors.lastName}</div>
+                <ErrorFormMessage>{formik.errors.lastName}</ErrorFormMessage>
             ) : null}
             <TextField
                 margin="dense"
@@ -101,7 +101,7 @@ const CreateForm = () => {
                 value={formik.values.email}
             />
             {formik.touched.email && formik.errors.email ? (
-                <div>{formik.errors.email}</div>
+                <ErrorFormMessage>{formik.errors.email}</ErrorFormMessage>
             ) : null}
             {images ? (
                 <FormControl fullWidth>

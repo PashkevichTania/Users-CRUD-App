@@ -18,6 +18,7 @@ const UserCard = (props) => {
     if (response1.responseStatus.status === 200){
       if (currentPage===pages && users.length === 1){
         const response2 = await getAllUsersPaginated(currentPage-1);
+        dispatch({type: ACTION_TYPES.SET_CURRENT_PAGE, payload: currentPage-1})
         dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
         dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
       }else{

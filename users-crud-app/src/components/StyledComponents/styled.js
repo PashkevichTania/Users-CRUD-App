@@ -13,3 +13,8 @@ export const AvatarThumb = styled.img`
   height: 100px;
   object-fit: cover;
 `
+
+export const ErrorFormMessage = styled.div`
+  margin: 5px;
+  color: #de3b3b;
+`

@@ -13,7 +13,7 @@ import {ACTION_TYPES} from "const";
 const Cards = () => {
 
 
-  const {users, pages} = useContext(GlobalStateContext);
+  const {users, pages, currentPage} = useContext(GlobalStateContext);
   const dispatch = useGlobalDispatchContext();
 
   let list;
@@ -40,7 +40,7 @@ const Cards = () => {
               {list}
             </Grid>
           </Container>
-          <Pagination count={pages} onChange={pageChangeHandler} color="primary"/>
+          <Pagination count={pages} page={currentPage} onChange={pageChangeHandler} color="primary"/>
         </MainWrapper>
       </main>
   );
