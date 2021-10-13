@@ -14,20 +14,20 @@ import {ACTION_TYPES} from "const";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {AvatarThumb} from "components/StyledComponents/styled";
-import {createUser, getAllUsersPaginated} from "services/apiRequests";
+import {getAllUsersPaginated, updateUser} from "services/apiRequests";
 
-const CreateForm = () => {
+const UpdateForm = () => {
 
-  const {createFormOpened, images} = useGlobalStateContext()
+  const {updateFormOpened, images, currentUser} = useGlobalStateContext()
   const dispatch = useGlobalDispatchContext();
 
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      avatar: ''
+      firstName: currentUser.firstName,
+      lastName: currentUser.lastName,
+      email: currentUser.email,
+      avatar: currentUser.avatar
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -39,7 +39,7 @@ const CreateForm = () => {
       email: Yup.string().email('Invalid email address').required('Required'),
     }),
     onSubmit: async (values) => {
-      const response1 = await createUser(values);
+      const response1 = await updateUser(currentUser.id, values);
       if (response1.responseStatus === 200){
         const response2 = await getAllUsersPaginated(1);
         dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
@@ -50,13 +50,13 @@ const CreateForm = () => {
   });
 
   const handleCloseCreateForm = () => {
-    dispatch({type: ACTION_TYPES.CREATE_FORM_OPENED, payload: false})
+    dispatch({type: ACTION_TYPES.UPDATE_FORM_OPENED, payload: false})
   }
 
   return (
-      <Dialog open={createFormOpened} onClose={handleCloseCreateForm}>
+      <Dialog open={updateFormOpened} onClose={handleCloseCreateForm}>
         <form onSubmit={formik.handleSubmit}>
-          <DialogTitle>Create new user</DialogTitle>
+          <DialogTitle>Update user</DialogTitle>
           <DialogContent>
             <TextField
                 margin="dense"
@@ -66,6 +66,7 @@ const CreateForm = () => {
                 type="text"
                 fullWidth
                 variant="standard"
+                defaultValue={currentUser.firstName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.firstName}
@@ -81,6 +82,7 @@ const CreateForm = () => {
                 type="text"
                 fullWidth
                 variant="standard"
+                defaultValue={currentUser.lastName}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.lastName}
@@ -96,6 +98,7 @@ const CreateForm = () => {
                 type="email"
                 fullWidth
                 variant="standard"
+                defaultValue={currentUser.email}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
@@ -112,10 +115,14 @@ const CreateForm = () => {
                       id="avatar"
                       name="avatar"
                       label="avatar"
+                      defaultValue={currentUser.avatar}
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       value={formik.values.avatar}
                   >
+                    <MenuItem value={currentUser.avatar}>
+                      <AvatarThumb src={currentUser.avatar} alt="avatar"/>
+                    </MenuItem>
                     {images.map( (image) =>
                         <MenuItem value={image.urls.regular} key={image.id}>
                           <AvatarThumb src={image.urls.thumb} alt="avatar"/>
@@ -127,11 +134,11 @@ const CreateForm = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseCreateForm}>Cancel</Button>
-            <Button type={"submit"}>Create</Button>
+            <Button type={"submit"}>Update</Button>
           </DialogActions>
         </form>
       </Dialog>
   );
 };
 
-export default CreateForm;
+export default UpdateForm;

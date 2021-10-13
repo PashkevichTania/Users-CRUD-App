@@ -6,10 +6,11 @@ import {useQuery} from "react-query";
 import {useGlobalDispatchContext} from "context/GlobalContext";
 import {ACTION_TYPES} from "const";
 import {MainWrapper} from "components/StyledComponents/styled";
-import CreateForm from "components/PopupForm/CreateForm";
+import CreateForm from "components/PopupForms/CreateForm";
 import {Button} from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {getImages} from "services/imagesAPI";
+import UpdateForm from "components/PopupForms/UpdateForm";
 
 
 
@@ -65,6 +66,7 @@ export default function Home() {
           </Button>
           <Cards />
           <CreateForm />
+          <UpdateForm />
         </MainWrapper>
       </div>
   );
