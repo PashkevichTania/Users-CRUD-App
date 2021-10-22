@@ -20,6 +20,7 @@ const CreateForm = () => {
       firstName: '',
       lastName: '',
       email: '',
+      password: ''
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -45,9 +46,6 @@ const CreateForm = () => {
       if (img){
         formData.set('avatar', img.file);
       }
-
-
-      console.log('avatar', formData.has('avatar'), formData.get('avatar'))
 
       const response1 = await createUser(formData);
       console.log(response1)
