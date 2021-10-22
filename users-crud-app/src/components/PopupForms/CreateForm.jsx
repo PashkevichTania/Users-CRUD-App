@@ -1,10 +1,18 @@
 import React, {useState} from 'react';
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  TextField, Typography
+} from "@mui/material";
 import {useGlobalDispatchContext, useGlobalStateContext} from "context/GlobalContext";
 import {ACTION_TYPES} from "const";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {ErrorFormMessage} from "components/StyledComponents/styled";
+import {AvatarPreview, ErrorFormMessage} from "components/StyledComponents/styled";
 import {createUser, getAllUsersPaginated} from "services/apiRequests";
 import Dropzone from "components/Dropzone/Dropzone";
 
@@ -43,7 +51,7 @@ const CreateForm = () => {
       }
 
       /* if there is image file add it as avatar */
-      if (img){
+      if (img) {
         formData.set('avatar', img.file);
       }
 
@@ -126,13 +134,25 @@ const CreateForm = () => {
           {formik.touched.password && formik.errors.password ? (
             <ErrorFormMessage>{formik.errors.password}</ErrorFormMessage>
           ) : null}
-          <Dropzone setImg={setImg} />
+          <Grid container alignItems={"center"} justifyContent={'space-between'}>
+            <Grid item xs={12} md={8}>
+              <Dropzone setImg={setImg}/>
+            </Grid>
+            <Grid item xs={12} md={4}
+                  display={'flex'}
+                  flexDirection={'column'}
+                  alignItems={'center'}
+                  justifyContent={'center'}
+            >
+              <Typography>Avatar preview</Typography>
+              {img ? <AvatarPreview src={img.binaryStr} alt="avatar"/> : null}
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCreateForm}>Cancel</Button>
           <Button type={"submit"}>Create</Button>
         </DialogActions>
-        {img? <img src={img.binaryStr} alt="avatar" style={{width: '100px', height: '100px'}}/>: null}
       </form>
     </Dialog>
   );

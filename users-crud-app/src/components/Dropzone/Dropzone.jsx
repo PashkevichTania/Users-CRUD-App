@@ -1,6 +1,7 @@
 import React, {useCallback} from 'react'
 import {useDropzone} from 'react-dropzone'
-
+import {Box} from "@mui/material";
+import {CloudDownload} from "@mui/icons-material";
 
 function Dropzone(props) {
 
@@ -35,14 +36,19 @@ function Dropzone(props) {
   })
 
   return (
-    <div className="container">
+    <Box sx={{ p: 2, border: '1px dashed grey' }}>
       <div {...getRootProps({className: "dropzone"})}>
-        <input {...getInputProps()} name={"dropzone"} />
+        <input {...getInputProps()} name={"dropzone"}/>
         {isDragAccept && (<p>All files will be accepted</p>)}
         {isDragReject && (<p>Some files will be rejected</p>)}
-        {!isDragActive && (<p>Click to choose image avatar, or just drop image here...</p>)}
+        {!isDragActive && (
+          <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+            <p>Click to choose avatar, or just drop image here...</p>
+            <CloudDownload/>
+          </Box>
+        )}
       </div>
-    </div>
+    </Box>
   )
 }
 
