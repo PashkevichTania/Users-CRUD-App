@@ -19,7 +19,7 @@ const Cards = () => {
   let list;
   if (users.length) {
     list = users.map((card) => (
-        <UserCard card={card} key={card.id}/>
+        <UserCard card={card} key={card._id}/>
     ))
   }
 
