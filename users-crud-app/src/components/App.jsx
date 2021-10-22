@@ -9,14 +9,7 @@ import React from "react";
 
 function App() {
 
-  console.group('cookie: ')
-  console.log(document.cookie)
-  console.log('cookie user: ', getCookie('X-AUTH-USER-CRUD'))
-  console.groupEnd()
-
   const loggedIn = getCookie('X-AUTH-USER-CRUD')
-  console.log(loggedIn ? '<Redirect to="/auth" />' : '<Home />')
-
 
   return (
     <div className="App">

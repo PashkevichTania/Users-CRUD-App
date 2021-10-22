@@ -7,7 +7,8 @@ import CreateForm from "components/PopupForms/CreateForm";
 import {Button} from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import UpdateForm from "components/PopupForms/UpdateForm";
-import {useQueryMultiple} from "hooks/useQueryMultiple";
+import {useQuery} from "react-query";
+import {getAllUsersPaginated} from "services/apiRequests";
 
 
 export default function Home() {
@@ -15,10 +16,10 @@ export default function Home() {
   const dispatch = useGlobalDispatchContext();
   const [error, setError] = useState(null)
 
-  const [
-    {error: errorImages, data: dataImages},
+  const
     {isLoading: isLoadingUsers, error: errorUsers, data: dataUsers}
-  ] = useQueryMultiple()
+      = useQuery('getUsers', () =>
+      getAllUsersPaginated(1));
 
   if (isLoadingUsers) return (<MainWrapper>{'Loading...'}</MainWrapper>)
 
@@ -35,12 +36,6 @@ export default function Home() {
     }
   }
 
-  if (errorImages) {
-    console.log(errorImages)
-  }
-  if (dataImages) {
-    dispatch({type: ACTION_TYPES.SET_IMAGES, payload: dataImages.results})
-  }
 
   const handleOpenCreateForm = () => {
     dispatch({type: ACTION_TYPES.CREATE_FORM_OPENED, payload: true})

@@ -1,29 +1,16 @@
 import React from 'react';
-import {login} from "services/auth";
-import {useHistory} from "react-router-dom";
+import LoginForm from "components/LoginForm/LoginForm";
+import SignUpForm from "components/SignUpForm/SignUpForm";
 
 
 const Auth = () => {
 
-  const history = useHistory()
-
-
-  const loginHandler = async () => {
-    const res = await login({
-      email: "ann.forman@mail.comm",
-      password: "123"
-    })
-    console.log('res:s2 ', res)
-
-    if (res.isAuth) {
-      history.push('/home')
-    }
-  }
 
   return (
     <div>
-      auth
-      <button onClick={loginHandler}>login</button>
+      Authentication
+      <LoginForm />
+      <SignUpForm />
     </div>
   );
 };
