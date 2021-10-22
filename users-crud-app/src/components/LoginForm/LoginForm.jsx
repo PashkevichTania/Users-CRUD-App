@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Checkbox, FormControlLabel, TextField} from "@mui/material";
+import {Button, Checkbox, Container, FormControlLabel, TextField, Typography} from "@mui/material";
 import {ErrorFormMessage} from "components/StyledComponents/styled";
 import {useFormik} from "formik";
 import * as Yup from "yup";
@@ -33,7 +33,8 @@ const LoginForm = () => {
 
 
   return (
-    <div>
+    <Container>
+      <Typography variant="h5" component="h3" sx={{ml: '1rem'}}>Log in</Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           margin="dense"
@@ -76,7 +77,7 @@ const LoginForm = () => {
         />
         <Button type={"submit"}>Log in</Button>
       </form>
-    </div>
+    </Container>
   );
 };
 
