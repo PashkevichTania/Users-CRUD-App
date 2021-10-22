@@ -24,7 +24,6 @@ const LoginForm = () => {
 
     onSubmit: (values) => {
       login(values).then((res) => {
-        console.log("login", res)
         if (res.isAuth) {
           history.push('/home')
         }
