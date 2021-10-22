@@ -1,36 +1,43 @@
+import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import Home from "pages/home/home";
+import Auth from "pages/Auth/Auth";
 import {getCookie} from "cookieUtils/cookieUtils";
-import {useQuery} from "react-query";
-import {login} from "services/auth";
-import {getAllUsersPaginated} from "services/apiRequests";
-import {useEffect, useState} from "react";
+import {MainWrapper} from "components/StyledComponents/styled";
+import Header from "components/Header/Header";
+import React from "react";
 
 
 function App() {
 
-    const [isAuth, setAuth] = useState(false);
+  console.group('cookie: ')
+  console.log(document.cookie)
+  console.log('cookie user: ', getCookie('X-AUTH-USER-CRUD'))
+  console.groupEnd()
 
-    useEffect(async ()=>{
-        // console.group('cookie: ')
-        // console.log(document.cookie)
-        // console.log('cookie user: ', getCookie('X-AUTH-USER-CRUD'))
-        // console.groupEnd()
-
-
-        const res = await getAllUsersPaginated(1,1)
-        setAuth(res.responseStatus.isAuth)
-        console.log('res:s ',res)
-
-    },[])
+  const loggedIn = getCookie('X-AUTH-USER-CRUD')
+  console.log(loggedIn ? '<Redirect to="/auth" />' : '<Home />')
 
 
-
-    return (
-        <div className="App">
-            {isAuth? <Home/>: null}
-        </div>
-
-    );
+  return (
+    <div className="App">
+      <MainWrapper>
+        <Header/>
+        <Router>
+          <Switch>
+            <Route path="/" exact>
+              {loggedIn ? <Redirect to="/home"/> : <Redirect to="/auth"/>}
+            </Route>
+            <Route path="/home">
+              <Home/>
+            </Route>
+            <Route path="/auth">
+              <Auth/>
+            </Route>
+          </Switch>
+        </Router>
+      </MainWrapper>
+    </div>
+  );
 }
 
 export default App;
