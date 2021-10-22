@@ -14,7 +14,7 @@ const UserCard = (props) => {
 
 
   const deleteHandler = async () => {
-    const response1 = await deleteUser(card.id);
+    const response1 = await deleteUser(card._id);
     if (response1.responseStatus.status === 200){
       if (currentPage===pages && users.length === 1){
         const response2 = await getAllUsersPaginated(currentPage-1);
@@ -36,7 +36,7 @@ const UserCard = (props) => {
   }
 
   return (
-    <Grid item key={card.id}>
+    <Grid item key={card._id}>
       <Card
         sx={{ height: '500px', width: '300px', display: 'flex', flexDirection: 'column' }}
       >
