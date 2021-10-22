@@ -26,9 +26,9 @@ export const createUser = async (body) => {
     try {
         const response = await fetch(`${SERVER_PATH}/users`, {
             method: 'POST',
-            body: JSON.stringify(body),
+            body: body,
             headers: {
-                'Content-Type': 'application/json'
+
             },
         })
         const user = await response.json();
