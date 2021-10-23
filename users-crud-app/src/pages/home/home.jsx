@@ -18,10 +18,7 @@ export default function Home() {
 
   const
     {isLoading: isLoadingUsers, error: errorUsers, data: dataUsers}
-      = useQuery('getUsers', () =>
-      getAllUsersPaginated(1));
-
-  if (isLoadingUsers) return (<MainWrapper>{'Loading...'}</MainWrapper>)
+      = useQuery('getUsers', () => getAllUsersPaginated(1));
 
   if (errorUsers) return (
     <MainWrapper> {'An error has occurred: ' + errorUsers.message}</MainWrapper>)

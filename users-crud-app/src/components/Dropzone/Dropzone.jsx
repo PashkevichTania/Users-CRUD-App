@@ -8,6 +8,7 @@ function Dropzone(props) {
   const {setImg} = props
 
   const onDrop = useCallback((acceptedFiles) => {
+    console.log(acceptedFiles)
     acceptedFiles.forEach((file) => {
       const reader = new FileReader()
 
@@ -36,7 +37,7 @@ function Dropzone(props) {
   })
 
   return (
-    <Box sx={{ p: 2, border: '1px dashed grey' }}>
+    <Box sx={{ p: 2, border: '1px dashed grey', minHeight: '132px' }}>
       <div {...getRootProps({className: "dropzone"})}>
         <input {...getInputProps()} name={"dropzone"}/>
         {isDragAccept && (<p>All files will be accepted</p>)}
