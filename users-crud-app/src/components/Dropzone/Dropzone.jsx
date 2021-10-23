@@ -38,16 +38,19 @@ function Dropzone(props) {
 
   return (
     <Box sx={{ p: 2, border: '1px dashed grey', minHeight: '132px' }}>
-      <div {...getRootProps({className: "dropzone"})}>
-        <input {...getInputProps()} name={"dropzone"}/>
-        {isDragAccept && (<p>All files will be accepted</p>)}
-        {isDragReject && (<p>Some files will be rejected</p>)}
-        {!isDragActive && (
-          <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-            <p>Click to choose avatar, or just drop image here...</p>
-            <CloudDownload/>
-          </Box>
-        )}
+      <div {...getRootProps()}>
+        <input {...getInputProps()} name={"dropzone"} />
+        {isDragActive ?
+            <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+              <p>Drop the files here ...</p>
+              {isDragAccept && (<p>All files will be accepted</p>)}
+              {isDragReject && (<p>Some files will be rejected</p>)}
+              <CloudDownload/>
+            </Box> :
+            <Box display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+              <p>Click to choose avatar, or just drop image here...</p>
+              <CloudDownload/>
+            </Box>}
       </div>
     </Box>
   )
