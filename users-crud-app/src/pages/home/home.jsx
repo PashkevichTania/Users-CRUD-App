@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import Cards from "components/Cards/Cards";
 import {useGlobalDispatchContext} from "context/GlobalContext";
 import {ACTION_TYPES} from "const";
@@ -18,7 +18,10 @@ export default function Home() {
 
   const
     {isLoading: isLoadingUsers, error: errorUsers, data: dataUsers}
-      = useQuery('getUsers', () => getAllUsersPaginated(1));
+      = useQuery('getUsers',() => getAllUsersPaginated(1),{ refetchOnWindowFocus: false });
+
+  if (isLoadingUsers) return (
+      <MainWrapper> {'Loading...'}</MainWrapper>)
 
   if (errorUsers) return (
     <MainWrapper> {'An error has occurred: ' + errorUsers.message}</MainWrapper>)

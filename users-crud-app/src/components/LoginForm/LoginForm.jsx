@@ -14,7 +14,7 @@ const LoginForm = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      email: window.localStorage.getItem('userEmail') || '',
       password: '',
     },
     validationSchema: Yup.object({
@@ -23,6 +23,9 @@ const LoginForm = () => {
     }),
 
     onSubmit: (values) => {
+      if (checked){
+        window.localStorage.setItem('userEmail', values.email)
+      }
       login(values).then((res) => {
         if (res.isAuth) {
           history.push('/home')

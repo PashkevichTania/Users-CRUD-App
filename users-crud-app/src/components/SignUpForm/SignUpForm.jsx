@@ -31,6 +31,9 @@ const SignUpForm = () => {
     }),
 
     onSubmit: (values) => {
+      if (checked){
+        window.localStorage.setItem('userEmail', values.email)
+      }
       signUp(values).then((res) => {
         if (res.status === 200) {
           history.push('/home')

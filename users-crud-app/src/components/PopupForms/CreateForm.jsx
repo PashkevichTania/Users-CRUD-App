@@ -21,7 +21,7 @@ const CreateForm = () => {
 
   const {createFormOpened, currentPage} = useGlobalStateContext();
   const dispatch = useGlobalDispatchContext();
-  const [img, setImg] = useState(null)
+  const [img, setImg] = useState(null);
 
 
   const formik = useFormik({

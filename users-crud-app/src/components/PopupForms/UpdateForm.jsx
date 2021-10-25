@@ -1,24 +1,15 @@
 import React from 'react';
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormControl,
-  InputLabel, MenuItem, Select,
-  TextField
-} from "@mui/material";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import {useGlobalDispatchContext, useGlobalStateContext} from "context/GlobalContext";
 import {ACTION_TYPES} from "const";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
-import {AvatarThumb, ErrorFormMessage} from "components/StyledComponents/styled";
+import {ErrorFormMessage} from "components/StyledComponents/styled";
 import {getAllUsersPaginated, updateUser} from "services/apiRequests";
 
 const UpdateForm = () => {
 
-  const {updateFormOpened, images, currentUser, currentPage} = useGlobalStateContext()
+  const {updateFormOpened, currentUser, currentPage} = useGlobalStateContext();
   const dispatch = useGlobalDispatchContext();
 
 
@@ -28,7 +19,6 @@ const UpdateForm = () => {
       firstName: currentUser.firstName,
       lastName: currentUser.lastName,
       email: currentUser.email,
-      avatar: currentUser.avatar
     },
     validationSchema: Yup.object({
       firstName: Yup.string()
@@ -40,8 +30,8 @@ const UpdateForm = () => {
       email: Yup.string().email('Invalid email address').required('Required'),
     }),
     onSubmit: async (values) => {
-      const response1 = await updateUser(currentUser.id, values);
-      if (response1.responseStatus.status === 200){
+      const response1 = await updateUser(currentUser._id, values);
+      if (response1.responseStatus.status === 200) {
         const response2 = await getAllUsersPaginated(currentPage);
         dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
         dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
@@ -103,30 +93,6 @@ const UpdateForm = () => {
             />
             {formik.touched.email && formik.errors.email ? (
                 <ErrorFormMessage>{formik.errors.email}</ErrorFormMessage>
-            ) : null}
-            {images ? (
-                <FormControl fullWidth>
-                  <InputLabel id="select-avatar">Avatar</InputLabel>
-                  <Select
-                      autoWidth
-                      labelId="select-avatar"
-                      id="avatar"
-                      name="avatar"
-                      label="avatar"
-                      value={formik.values.avatar}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                  >
-                    <MenuItem value={currentUser.avatar}>
-                      <AvatarThumb src={currentUser.avatar} alt="avatar"/>
-                    </MenuItem>
-                    {images.map( (image) =>
-                        <MenuItem value={image.urls.regular} key={image.id}>
-                          <AvatarThumb src={image.urls.thumb} alt="avatar"/>
-                        </MenuItem>
-                    )}
-                  </Select>
-                </FormControl>
             ) : null}
           </DialogContent>
           <DialogActions>
