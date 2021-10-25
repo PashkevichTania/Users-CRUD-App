@@ -10,7 +10,6 @@ const initialState = {
   currentUser: {},
   pages: 1,
   currentPage: 1,
-  images: [],
   createFormOpened: false,
   updateFormOpened: false,
 }
@@ -27,11 +26,6 @@ function reducer(state, action) {
         ...state,
         pages: action.payload,
       };
-    case ACTION_TYPES.SET_IMAGES:
-      return {
-        ...state,
-        images: action.payload,
-      };
     case ACTION_TYPES.SET_CURRENT_USER:
       return {
         ...state,
@@ -41,24 +35,6 @@ function reducer(state, action) {
       return {
         ...state,
         currentPage: action.payload,
-      };
-    case ACTION_TYPES.ADD_USER:
-      const usersWithNew = state.users.concat(action.payload)
-      return {
-        ...state,
-        users: usersWithNew,
-      };
-    case ACTION_TYPES.UPDATE_USER:
-      return {
-        ...state,
-        users: action.payload,
-      };
-    case ACTION_TYPES.DELETE_USER:
-      const id = action.payload;
-      const usersWithoutDeleted = state.users.filter((user) => user.id !== id )
-      return {
-        ...state,
-        users: usersWithoutDeleted,
       };
     case ACTION_TYPES.CREATE_FORM_OPENED:
       return {
