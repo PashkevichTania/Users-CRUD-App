@@ -41,7 +41,6 @@ const LoginForm = () => {
       <form onSubmit={formik.handleSubmit}>
         <TextField
           margin="dense"
-          id="email"
           name="email"
           label="Email Address"
           type="email"

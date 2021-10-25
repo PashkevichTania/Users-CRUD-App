@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {useState} from "react";
 import Cards from "components/Cards/Cards";
 import {useGlobalDispatchContext} from "context/GlobalContext";
 import {ACTION_TYPES} from "const";
