@@ -14,7 +14,6 @@ import {getAllUsersPaginated} from "services/apiRequests";
 export default function Home() {
 
   const dispatch = useGlobalDispatchContext();
-  const [error, setError] = useState(null)
 
   const
     {isLoading: isLoadingUsers, error: errorUsers, data: dataUsers}
@@ -28,11 +27,11 @@ export default function Home() {
 
   if (dataUsers) {
     console.log('dataUsers,', dataUsers)
-    if (dataUsers.responseStatus.status === 404) {
-      setError(dataUsers.responseStatus)
-    } else {
+    if (dataUsers.responseStatus.status === 200) {
       dispatch({type: ACTION_TYPES.SET_PAGES, payload: dataUsers.data.totalPages})
       dispatch({type: ACTION_TYPES.SET_USERS, payload: dataUsers.data.docs})
+    } else {
+      return (<MainWrapper> {dataUsers.responseStatus.message}</MainWrapper>)
     }
   }
 
@@ -50,7 +49,7 @@ export default function Home() {
               onClick={handleOpenCreateForm}>
         Create new user
       </Button>
-      {error ? error.message : <Cards/>}
+      <Cards/>
       <CreateForm/>
       <UpdateForm/>
     </MainWrapper>
