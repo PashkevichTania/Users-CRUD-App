@@ -158,8 +158,8 @@ const CreateForm = () => {
           </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseCreateForm}>Cancel</Button>
-          <Button type={"submit"}>Create</Button>
+          <Button onClick={handleCloseCreateForm} variant={"contained"}>Cancel</Button>
+          <Button type={"submit"} variant={"contained"} color={"success"}>Create</Button>
         </DialogActions>
       </form>
     </Dialog>

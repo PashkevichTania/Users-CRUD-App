@@ -55,7 +55,6 @@ const LoginForm = () => {
         ) : null}
         <TextField
           margin="dense"
-          id="password"
           name="password"
           label="Password"
           type="password"
