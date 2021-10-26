@@ -1,7 +1,9 @@
 import React from 'react';
-import LoginForm from "components/LoginForm/LoginForm";
-import SignUpForm from "components/SignUpForm/SignUpForm";
+import LoginForm from "components/Auth/LoginForm/LoginForm";
+import SignUpForm from "components/Auth/SignUpForm/SignUpForm";
 import {Container, Grid, Typography} from "@mui/material";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Auth = () => {
@@ -21,6 +23,17 @@ const Auth = () => {
           <SignUpForm />
         </Grid>
       </Grid>
+      <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+      />
     </Container>
   );
 };

@@ -12,10 +12,9 @@ function App() {
   const loggedIn = getCookie('X-AUTH-USER-CRUD')
 
   return (
-    <div className="App">
       <MainWrapper>
-        <Header/>
         <Router>
+          <Header/>
           <Switch>
             <Route path="/" exact>
               {loggedIn ? <Redirect to="/home"/> : <Redirect to="/auth"/>}
@@ -29,7 +28,6 @@ function App() {
           </Switch>
         </Router>
       </MainWrapper>
-    </div>
   );
 }
 

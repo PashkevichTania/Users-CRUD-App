@@ -4,28 +4,29 @@ import {ErrorFormMessage} from "components/StyledComponents/styled";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useHistory} from "react-router-dom";
-import {signUp} from "services/auth";
+import {login} from "services/auth";
+import {toast} from "react-toastify";
 
-const SignUpForm = () => {
-
+const LoginForm = () => {
+  const notify = (text) => toast.error(text, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
 
   const history = useHistory()
   const [checked, setChecked] = useState(false)
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
+      email: window.localStorage.getItem('userEmail') || '',
       password: '',
     },
     validationSchema: Yup.object({
-      firstName: Yup.string()
-        .max(15, 'Must be 15 characters or less')
-        .required('Required'),
-      lastName: Yup.string()
-        .max(20, 'Must be 20 characters or less')
-        .required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
       password: Yup.string().required('Required'),
     }),
@@ -34,9 +35,11 @@ const SignUpForm = () => {
       if (checked){
         window.localStorage.setItem('userEmail', values.email)
       }
-      signUp(values).then((res) => {
-        if (res.status === 200) {
+      login(values).then((res) => {
+        if (res.isAuth) {
           history.push('/home')
+        }else {
+          notify(res.responseStatus.message)
         }
       })
     },
@@ -45,41 +48,10 @@ const SignUpForm = () => {
 
   return (
     <Container>
-      <Typography variant="h5" component="h3" sx={{ml: '1rem'}}>Sign up</Typography>
+      <Typography variant="h5" component="h3" sx={{ml: '1rem'}}>Log in</Typography>
       <form onSubmit={formik.handleSubmit}>
         <TextField
           margin="dense"
-          id="firstName"
-          name="firstName"
-          label="First name"
-          type="text"
-          fullWidth
-          variant="standard"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.firstName}
-        />
-        {formik.touched.firstName && formik.errors.firstName ? (
-          <ErrorFormMessage>{formik.errors.firstName}</ErrorFormMessage>
-        ) : null}
-        <TextField
-          margin="dense"
-          id="lastName"
-          name="lastName"
-          label="Last name"
-          type="text"
-          fullWidth
-          variant="standard"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.lastName}
-        />
-        {formik.touched.lastName && formik.errors.lastName ? (
-          <ErrorFormMessage>{formik.errors.lastName}</ErrorFormMessage>
-        ) : null}
-        <TextField
-          margin="dense"
-          id="email"
           name="email"
           label="Email Address"
           type="email"
@@ -94,7 +66,6 @@ const SignUpForm = () => {
         ) : null}
         <TextField
           margin="dense"
-          id="password"
           name="password"
           label="Password"
           type="password"
@@ -116,10 +87,10 @@ const SignUpForm = () => {
           />}
           label="Remember me"
         />
-        <Button type={"submit"}>Sign up</Button>
+        <Button type={"submit"}>Log in</Button>
       </form>
     </Container>
   );
 };
 
-export default SignUpForm;
+export default LoginForm;
