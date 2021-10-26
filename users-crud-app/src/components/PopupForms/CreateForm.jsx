@@ -13,16 +13,26 @@ import {ACTION_TYPES} from "const";
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {AvatarPreview, ErrorFormMessage} from "components/StyledComponents/styled";
-import {createUser, getAllUsersPaginated} from "services/apiRequests";
+import {createUser} from "services/apiRequests";
 import Dropzone from "components/Dropzone/Dropzone";
+import {useMutation, useQueryClient} from "react-query";
 
 
-const CreateForm = () => {
+const CreateForm  = () => {
 
-  const {createFormOpened, currentPage} = useGlobalStateContext();
+  const queryClient = useQueryClient()
+  const {createFormOpened} = useGlobalStateContext();
   const dispatch = useGlobalDispatchContext();
   const [img, setImg] = useState(null);
 
+  const mutation = useMutation(
+      (formData) => createUser(formData),
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries('getUsers')
+        },
+      }
+  )
 
   const formik = useFormik({
     initialValues: {
@@ -44,25 +54,16 @@ const CreateForm = () => {
 
     onSubmit: async (values) => {
       let formData = new FormData();
-
-
       /* set input field values to formData */
       for (let value in values) {
         formData.set(value, values[value]);
       }
-
       /* if there is image file add it as avatar */
       if (img) {
         formData.set('avatar', img.file);
       }
 
-      const response1 = await createUser(formData);
-      console.log(response1)
-      if (response1.responseStatus.status === 200) {
-        const response2 = await getAllUsersPaginated(currentPage);
-        dispatch({type: ACTION_TYPES.SET_PAGES, payload: response2.data.totalPages})
-        dispatch({type: ACTION_TYPES.SET_USERS, payload: response2.data.docs})
-      }
+      mutation.mutate(formData)
       handleCloseCreateForm()
     },
   });
