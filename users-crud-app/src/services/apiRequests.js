@@ -7,7 +7,7 @@ export const getAllUsersPaginated = async (page = 1 ,limit = 3) => {
         console.log("get all pag: ", users)
         return users;
     }catch (error){
-        console.log(error)
+        throw new Error(error)
     }
 }
 
@@ -18,7 +18,7 @@ export const getOneById = async (id) => {
         console.log("get by id: ", user)
         return user;
     }catch (error){
-        console.log(error)
+        throw new Error(error)
     }
 }
 
@@ -35,7 +35,7 @@ export const createUser = async (body) => {
         console.log("create: ", user)
         return user;
     }catch (error){
-        console.log(error)
+        throw new Error(error)
     }
 }
 
@@ -52,7 +52,7 @@ export const updateUser = async (id, body) => {
         console.log("update: ", user)
         return user;
     }catch (error){
-        console.log(error)
+        throw new Error(error)
     }
 }
 
@@ -65,7 +65,7 @@ export const deleteUser = async (id) => {
         console.log("delete: ", user)
         return user;
     }catch (error){
-        console.log(error)
+        throw new Error(error)
     }
 }
 
