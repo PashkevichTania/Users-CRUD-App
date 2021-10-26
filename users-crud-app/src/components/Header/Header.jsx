@@ -13,7 +13,7 @@ const Header = () => {
   return (
       <AppBar position="relative" sx={{mb: 10}}>
         <Toolbar sx={{justifyContent: "space-between"}}>
-          <Typography variant="h6" color="inherit" noWrap>
+          <Typography variant="h6" color="inherit" noWrap component={"h1"}>
             Users CRUD
           </Typography>
           <Button onClick={clickHandler} color="inherit" size={"large"}
